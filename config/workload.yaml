@@ -1,0 +1,26 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: nginx-sample
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: nginx-sample
+  namespace: dev
+spec:
+  build:
+    env:
+      - name: BP_WEB_SERVER_ROOT
+        value: "bundle"
+      - name: BP_WEB_SERVER
+        value: "nginx"
+      - name: BP_NGINX_VERSION
+        value: "1.26.0"
+  params:
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "1"
+  source:
+    git:
+      url: https://github.com/x95castle1/nginx-sample
+      ref:
+        branch: main
